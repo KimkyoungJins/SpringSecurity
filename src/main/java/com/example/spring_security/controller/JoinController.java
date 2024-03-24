@@ -21,7 +21,6 @@ public class JoinController {
         return "join";
     }
 
-
     @PostMapping("/joinProc")
     public String joinProcess(JoinDTO joinDTO) {
 

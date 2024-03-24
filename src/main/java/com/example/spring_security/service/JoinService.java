@@ -59,15 +59,22 @@ public class JoinService {
         joinDTO.setPassword(bCryptPasswordEncoder.encode(joinDTO.getPassword()));
 
         // db에 이미 존재하는 username을 가진 회원이 존재하는지 확인해야한다.
+        boolean isUser = userRepository.existsByUsername(joinDTO.getUsername());
+
+        if (isUser) {
+            return;         // 존재한다면 강제롷 함수를 리턴시킨다.
+        }
+
+
 
         UserDomain data = new UserDomain();
 
 
         //왜냐하면 DTO에 있는 데이터 타입을 Userdomain 형식으로 바꾸기 대문이지
         data.setId(joinDTO.getId());
-        data.setUserName(joinDTO.getUsername());
+        data.setUsername(joinDTO.getUsername());
         data.setPassword(bCryptPasswordEncoder.encode(joinDTO.getPassword()));    // Join dto의 비밀번호 데이터를 그대로 가져옴 그리고 나서 암호화를 시킨다.
-        data.setRole("ROLE_USER");
+        data.setRole("ROLE_ADMIN");
 
 
         // 설정된 Userdomain 객체를 user repositor를 통해서 데이터 베이스에 저장한다.
